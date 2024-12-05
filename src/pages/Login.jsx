@@ -1,6 +1,16 @@
-import {Avatar, Button, Container, IconButton, Paper, Stack, TextField, Typography,} from "@mui/material";
+import {
+    Avatar,
+    Button,
+    Container, FormControl,
+    IconButton, InputAdornment, InputLabel,
+    OutlinedInput,
+    Paper,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import {useFileHandler, useInputValidation} from "6pp";
-import {CameraAlt as CameraAltIcon} from "@mui/icons-material";
+import {CameraAlt as CameraAltIcon, Visibility, VisibilityOff} from "@mui/icons-material";
 import {useState} from "react";
 import {VisuallyHiddenInput} from "../components/styles/StyledComponents";
 import {userNameValidator} from "../utils/validators";
@@ -15,6 +25,7 @@ function Login() {
     const dispatch = useDispatch()
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const toggleLogin = () => setIsLogin((c) => !c);
 
@@ -138,16 +149,28 @@ function Login() {
                                         </Typography>
                                     )}
 
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        label="Password"
-                                        type="password"
-                                        margin="normal"
-                                        variant="outlined"
-                                        value={password.value}
-                                        onChange={password.changeHandler}
-                                    />
+                                    <FormControl fullWidth sx={{mt: "1.3rem", mb: "0.5rem"}} variant="outlined">
+                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <OutlinedInput
+                                            required
+                                            id="outlined-adornment-password"
+                                            type={showPassword ? 'text' : 'password'}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword((show) => !show)}
+                                                        edge="end"
+                                                    >
+                                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            label="Password"
+                                            value={password.value}
+                                            onChange={password.changeHandler}
+                                        />
+                                    </FormControl>
+
                                     <Button
                                         sx={{
                                             marginTop: "1rem",
